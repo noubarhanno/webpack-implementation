@@ -22,21 +22,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devServer: {
-    static: "./dist",
-  },
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        // we remove style-loader that is responsible to inject css to the html
-        // and instead , exract the css to an extra css files added to the bundle
-        use: [miniCssExtractPlugin.loader, "css-loader"],
-      },
-      {
-        test: /\.s[ac]ss$/,
-        use: [miniCssExtractPlugin.loader, "css-loader", "sass-loader"],
-      },
       {
         test: /.(png|jpeg|gif|svg)$/,
         type: "asset/resource",
@@ -67,28 +54,6 @@ module.exports = {
       filename: "courses.html",
       inject: true,
     }),
-    new copyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "src/assets/images/*"),
-          to: path.resolve(__dirname, "dist"),
-          // means start the structure in the dist from after the src
-          context: "src",
-        },
-      ],
-    }),
-    new PurgeCss({
-      // the path will not work with resolve , instead it need to be as below
-      // ** means all the folders
-      // * means all the files
-      // nodir means no directory as per the configuration of glob
-      paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
-      // if you have some classes been added dynamically and you want to ignore purge it,
-      // add it to the safelist (you can pass body, h1 or any think you want to ignore)
-      safelist: ["dummy-css"],
-    }),
-    new miniCssExtractPlugin(),
-    // new BundleAnalyzerPlugin({}),
   ],
   optimization: {
     splitChunks: {
