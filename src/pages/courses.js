@@ -1,9 +1,7 @@
 import courseData from "../data/courses.json";
 import bootstrap from "bootstrap";
 import Typed from "typed.js";
-import $ from "jquery";
 import validate from "validate.js";
-import _ from "lodash";
 import toastr from "toastr";
 import "../index.css";
 import "../_vendor.scss";

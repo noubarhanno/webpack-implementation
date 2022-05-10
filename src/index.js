@@ -4,10 +4,13 @@ import bootstrap from "bootstrap";
 import Typed from "typed.js";
 import validate from "validate.js";
 import toastr from "toastr";
+import { showDate } from "./libs/showDate";
 // import bannerImg from "./assets/banner-image.png";
 
 import "./index.css";
 import "./_vendor.scss";
+
+showDate();
 
 const footerCol1Items = ["Home", "About", "Contact us", "FAQ", "Blog"];
 const footerCol2Items = ["Flutter", "Javascript", "Java", "Nodejs", "Python"];

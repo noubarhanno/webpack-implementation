@@ -3,6 +3,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const copyPlugin = require("copy-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const miniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   // entry is the entry for the js not html
@@ -37,6 +38,13 @@ module.exports = {
     ],
   },
   plugins: [
+    // provide plugin (adding mnt (moment library to a global object (window)))
+    // that's why we can remove the import from the index.js
+    // also lodash and jquery by default is been added to the global object (window)
+    // that's why we remove their imports
+    new webpack.ProvidePlugin({
+      mnt: "moment",
+    }),
     new htmlWebpackPlugin({
       template: "./src/index.html",
       // chunk is the entry
