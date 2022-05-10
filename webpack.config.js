@@ -4,6 +4,12 @@ const copyPlugin = require("copy-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const miniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
+const PurgeCss = require("purgecss-webpack-plugin");
+const glob = require("glob");
+
+const purgePath = {
+  src: path.join(__dirname, "src"),
+};
 
 module.exports = {
   // entry is the entry for the js not html
@@ -66,10 +72,20 @@ module.exports = {
         {
           from: path.resolve(__dirname, "src/assets/images/*"),
           to: path.resolve(__dirname, "dist"),
-          // means start the structure from after the src
+          // means start the structure in the dist from after the src
           context: "src",
         },
       ],
+    }),
+    new PurgeCss({
+      // the path will not work with resolve , instead it need to be as below
+      // ** means all the folders
+      // * means all the files
+      // nodir means no directory as per the configuration of glob
+      paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
+      // if you have some classes been added dynamically and you want to ignore purge it,
+      // add it to the safelist (you can pass body, h1 or any think you want to ignore)
+      safelist: ["dummy-css"],
     }),
     new miniCssExtractPlugin(),
     // new BundleAnalyzerPlugin({}),
